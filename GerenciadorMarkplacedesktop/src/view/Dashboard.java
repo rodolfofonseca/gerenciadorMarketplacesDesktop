@@ -1,10 +1,16 @@
 package view;
+
 import controller.view.DashboardCtr;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.Timer;
+
 /**
  *
  * @author RodolfoFonseca
  */
 public class Dashboard extends javax.swing.JFrame {
+
     private DashboardCtr controller;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Dashboard.class.getName());
 
@@ -14,8 +20,10 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         setLocationRelativeTo(null);
+        
         this.controller = new DashboardCtr();
         this.controller.iniciarDashboard(this);
+        setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -28,14 +36,32 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        jLabel1 = new javax.swing.JLabel();
+        lNomeUsuario = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lDataEHora = new javax.swing.JLabel();
         desktop = new util.DesktopComFundo();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        MenuCategoriaProdutos = new javax.swing.JMenuItem();
+        MenuProdutos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jToolBar1.setRollover(true);
+
+        jLabel1.setText("Usuário: ");
+        jToolBar1.add(jLabel1);
+
+        lNomeUsuario.setText("USUARIO");
+        jToolBar1.add(lNomeUsuario);
+
+        jLabel2.setText("Data e Hora: ");
+        jToolBar1.add(jLabel2);
+
+        lDataEHora.setText("31/10/1995 18:48:57");
+        jToolBar1.add(lDataEHora);
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
@@ -45,10 +71,21 @@ public class Dashboard extends javax.swing.JFrame {
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 618, Short.MAX_VALUE)
+            .addGap(0, 603, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icones/t32/registro.png"))); // NOI18N
+        jMenu1.setText("Cadastros");
+
+        MenuCategoriaProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icones/t32/adicionar-produto.png"))); // NOI18N
+        MenuCategoriaProdutos.setText("Categoria Produtos");
+        MenuCategoriaProdutos.addActionListener(this::MenuCategoriaProdutosActionPerformed);
+        jMenu1.add(MenuCategoriaProdutos);
+
+        MenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icones/t32/adicionar-produto.png"))); // NOI18N
+        MenuProdutos.setText("Produtos");
+        jMenu1.add(MenuProdutos);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -73,6 +110,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MenuCategoriaProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCategoriaProdutosActionPerformed
+        this.controller.abrirFormularioPesquisaCategoriaProdutos();
+    }//GEN-LAST:event_MenuCategoriaProdutosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -100,10 +141,17 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JMenuItem MenuCategoriaProdutos;
+    public javax.swing.JMenuItem MenuProdutos;
     public static javax.swing.JDesktopPane desktop;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JToolBar jToolBar1;
+    public javax.swing.JLabel lDataEHora;
+    public javax.swing.JLabel lNomeUsuario;
     // End of variables declaration//GEN-END:variables
+
 }
