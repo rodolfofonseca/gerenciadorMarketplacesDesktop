@@ -1,25 +1,33 @@
 package controller.view;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import java.beans.PropertyVetoException;
 import model.CategoriaProduto;
+import model.Produto;
 import static view.Dashboard.desktop;
 import view.Dashboard;
 import util.Sessao;
 import view.cadastro.CategoriaProdutoCad;
+import view.cadastro.ProdutoCad;
 import view.pesquisa.CategoriaProdutoPesq;
+import view.pesquisa.ProdutoPesq;
 
 /**
  * Classe que realiza todas as funções da view dashboard
+ *
  * @author RodolfoFonseca
  */
 public class DashboardCtr {
+
     /**
      * Função responsável por colocar o plano de fundo no desktop
-     * @param formulario 
+     *
+     * @param formulario
      */
-    private void adicionarPlanoDeFundo(Dashboard formulario){
+    private void adicionarPlanoDeFundo(Dashboard formulario) {
         java.net.URL url = getClass().getResource("/imagens/logo/logo.png");
 
         if (url == null) {
@@ -35,17 +43,19 @@ public class DashboardCtr {
             javax.swing.JOptionPane.showMessageDialog(formulario, "O desktop precisa ser do tipo DesktopComFundo.");
         }
     }
-    
+
     /**
      * Função responsável por colocar os dados da dashboard
-     * @param formulario 
+     *
+     * @param formulario
      */
-    private void colocarDadosDashboard(Dashboard formulario){
-        formulario.lNomeUsuario.setText(Sessao.usuario.getString("nome")+" - ");
+    private void colocarDadosDashboard(Dashboard formulario) {
+        formulario.lNomeUsuario.setText(Sessao.usuario.getString("nome") + " - ");
     }
-    
+
     /**
-     * Função responsável por iniciar o relógio que mostra a data e hora e fica atualizando em tempo de execução de sistema
+     * Função responsável por iniciar o relógio que mostra a data e hora e fica
+     * atualizando em tempo de execução de sistema
      */
     private void iniciarRelogio(Dashboard formulario) {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy HH:mm:ss", new java.util.Locale("pt", "BR"));
@@ -56,21 +66,22 @@ public class DashboardCtr {
 
         timer.start();
     }
-    
+
     /**
      * Função responsável por iniciar o formulário.
-     * @param formulario 
+     *
+     * @param formulario
      */
-    public void iniciarDashboard(Dashboard formulario){
+    public void iniciarDashboard(Dashboard formulario) {
         this.iniciarRelogio(formulario);
         this.adicionarPlanoDeFundo(formulario);
         this.colocarDadosDashboard(formulario);
     }
-    
+
     /**
      * Função responsável por abrir a o formulário de pesquisa de categoria
      */
-    public void abrirFormularioPesquisaCategoriaProdutos(){
+    public void abrirFormularioPesquisaCategoriaProdutos() {
         SwingUtilities.invokeLater(() -> {
             CategoriaProdutoPesq categoriaProduto = new CategoriaProdutoPesq();
 
@@ -94,12 +105,15 @@ public class DashboardCtr {
             }
         });
     }
-    
+
     /**
-     * Função repsonsável por abrir o formulário de cadastro de categorias de produto.
+     * Função repsonsável por abrir o formulário de cadastro de categorias de
+     * produto.
+     *
      * @param model
+     * @param formularioPesquisa
      */
-    public void abrirFormularioCadastroCategoriaProdutos(CategoriaProduto model, CategoriaProdutoPesq formularioPesquisa){
+    public void abrirFormularioCadastroCategoriaProdutos(CategoriaProduto model, CategoriaProdutoPesq formularioPesquisa) {
         SwingUtilities.invokeLater(() -> {
             CategoriaProdutoCad categoriaProduto = new CategoriaProdutoCad();
 
@@ -112,11 +126,11 @@ public class DashboardCtr {
             categoriaProduto.setLocation(x, y);
 
             desktop.add(categoriaProduto);
-            
-            if(model != null){
+
+            if (model != null) {
                 categoriaProduto.preencherFormulario(model);
             }
-            
+
             categoriaProduto.setVisible(true);
 
             desktop.revalidate();
@@ -126,6 +140,67 @@ public class DashboardCtr {
                 categoriaProduto.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
                 e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Função responsável por abrir o formulário de pesquisa de produtos
+     */
+    public void abrirFormularioPesquisaProduto() {
+        SwingUtilities.invokeLater(() -> {
+            ProdutoPesq pesquisa = new ProdutoPesq();
+
+            pesquisa.setSize(1000, 700);
+
+            int x = (desktop.getWidth() - pesquisa.getWidth()) / 2;
+            int y = (desktop.getHeight() - pesquisa.getHeight()) / 2;
+            pesquisa.setLocation(x, y);
+
+            desktop.add(pesquisa);
+            pesquisa.setVisible(true);
+            desktop.revalidate();
+            desktop.repaint();
+
+            try {
+                pesquisa.setSelected(true);
+            } catch (java.beans.PropertyVetoException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Função responsável por abrir o formulário de cadastro/Alteração de
+     * produtos com as informações carregadas no caso de alteração
+     *
+     * @param model
+     * @param formularioPesquisa
+     */
+    public void abrirFormularioCadastroProduto(Produto model, ProdutoPesq formularioPesquisa) {
+        SwingUtilities.invokeLater(() -> {
+            ProdutoCad cadastro = new ProdutoCad();
+            cadastro.setSize(1000, 700);
+            cadastro.formularioPesquisa = formularioPesquisa;
+            
+            int x = (desktop.getWidth() - cadastro.getWidth()) / 2;
+            int y = (desktop.getHeight() - cadastro.getHeight()) / 2;
+            cadastro.setLocation(x, y);
+            
+            desktop.add(cadastro);
+            
+            if(model != null){
+                cadastro.preencherFormulario(model);
+            }
+            
+            cadastro.setVisible(true);
+            desktop.revalidate();
+            desktop.repaint();
+            
+            try{
+                cadastro.setSelected(true);
+            }catch(PropertyVetoException ex){
+                ex.printStackTrace();
             }
         });
     }

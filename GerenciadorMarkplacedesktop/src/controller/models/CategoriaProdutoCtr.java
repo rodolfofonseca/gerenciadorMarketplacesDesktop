@@ -123,7 +123,15 @@ public class CategoriaProdutoCtr {
                 if (alteracao) {
                     return dao.alterar(model);
                 } else {
-                    return dao.cadastrar(model);
+                    CategoriaProduto categoriaValidacao = new CategoriaProduto();
+
+                    categoriaValidacao = dao.pesquisarDescricao(model.getDescricaoCategoriaProduto(), model.getEmpresa().getCodigoEmpresa());
+
+                    if (categoriaValidacao.getCodigoCategoriaProduto() == 0) {
+                        return dao.cadastrar(model);
+                    } else {
+                        return false;
+                    }
                 }
             }
 
@@ -135,10 +143,10 @@ public class CategoriaProdutoCtr {
                     Alertas.fechar();
 
                     if (retornoOperacao) {
-                        if(formulario.formularioPesquisa != null){
+                        if (formulario.formularioPesquisa != null) {
                             pesquisarCategoriasProdutos(formulario.formularioPesquisa, true);
                         }
-                        
+
                         Alertas.operacaoSucesso();
                     } else {
                         Alertas.OperacaoErro();

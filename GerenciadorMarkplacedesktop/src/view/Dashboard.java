@@ -75,7 +75,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icones/t32/registro.png"))); // NOI18N
-        jMenu1.setText("Cadastros");
+        jMenu1.setText("Produtos");
 
         MenuCategoriaProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icones/t32/adicionar-produto.png"))); // NOI18N
         MenuCategoriaProdutos.setText("Categoria Produtos");
@@ -84,6 +84,12 @@ public class Dashboard extends javax.swing.JFrame {
 
         MenuProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icones/t32/adicionar-produto.png"))); // NOI18N
         MenuProdutos.setText("Produtos");
+        MenuProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MenuProdutosMouseClicked(evt);
+            }
+        });
+        MenuProdutos.addActionListener(this::MenuProdutosActionPerformed);
         jMenu1.add(MenuProdutos);
 
         jMenuBar1.add(jMenu1);
@@ -114,6 +120,14 @@ public class Dashboard extends javax.swing.JFrame {
     private void MenuCategoriaProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCategoriaProdutosActionPerformed
         this.controller.abrirFormularioPesquisaCategoriaProdutos();
     }//GEN-LAST:event_MenuCategoriaProdutosActionPerformed
+
+    private void MenuProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuProdutosMouseClicked
+        
+    }//GEN-LAST:event_MenuProdutosMouseClicked
+
+    private void MenuProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuProdutosActionPerformed
+      this.controller.abrirFormularioPesquisaProduto();
+    }//GEN-LAST:event_MenuProdutosActionPerformed
 
     /**
      * @param args the command line arguments
